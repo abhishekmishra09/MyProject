@@ -1,0 +1,708 @@
+{
+  "paragraphs": [
+    {
+      "text": "%spark.r \n\nlibrary(chron)\nlibrary(ggplot2)\nlibrary(googleVis)\nsetwd(\"/Users/abhishekmishra/Downloads\")\n\n# Read SFPD_Incidents.csv file into a data frame\nsfo_crime_data \u003c- read.csv(file \u003d \"SFPD_Incidents.csv\")\n \n# Save the data frame as RData for future purpose\nsave(sfo_crime_data, file\u003d\"sfo_crime_data.rdata\")\n \n# Load the RData into memory\nload(\"sfo_crime_data.rdata\")\n\n# Find number of rows\nnrow(sfo_crime_data)",
+      "dateUpdated": "Feb 11, 2017 10:47:27 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480970699068_943857333",
+      "id": "20161205-124459_586489343",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "[1] 131875"
+      },
+      "dateCreated": "Dec 5, 2016 12:44:59 PM",
+      "dateStarted": "Dec 8, 2016 6:41:04 AM",
+      "dateFinished": "Dec 8, 2016 6:41:09 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%r\n \n# structure of crime data\n\nstr(sfo_crime_data)",
+      "dateUpdated": "Feb 11, 2017 10:47:27 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480970796965_1486242724",
+      "id": "20161205-124636_159588549",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\u0027data.frame\u0027:   131875 obs. of  12 variables:\n $ IncidntNum: int  130000019 130000047 130000047 130000069 130000075 130000081 130000081 130000100 130000100 130000116 …\n $ Category  : Factor w/ 37 levels “ARSON”,“ASSAULT”,..: 37 9 22 22 2 26 2 22 34 2 …\n $ Descript  : Factor w/ 529 levels “ABANDONMENT OF CHILD”,..: 359 509 191 190 9 425 90 402 304 7 …\n $ DayOfWeek : Factor w/ 7 levels “Friday”,“Monday”,..: 6 6 6 6 6 6 6 6 6 6 …\n $ Date      : Factor w/ 365 levels “01/01/2013”,“01/02/2013”,..: 1 1 1 1 1 1 1 1 1 1 …\n $ Time      : Factor w/ 1439 levels “00:01”,“00:02”,..: 1 12 12 48 20 39 39 4 4 60 …\n $ PdDistrict: Factor w/ 10 levels “BAYVIEW”,“CENTRAL”,..: 8 4 4 1 2 8 8 4 4 2 …\n $ Resolution: Factor w/ 17 levels “ARREST, BOOKED”,..: 2 1 1 2 12 12 12 2 2 1 …\n $ Address   : Factor w/ 15500 levels “0 Block of 10TH ST”,..: 13032 5534 5534 7237 3485 13032 13032 2118 2118 14471 …\n $ X         : num  -122 -122 -122 -122 -122 …\n $ Y         : num  37.8 37.8 37.8 37.7 37.8 …\n $ Location  : Factor w/ 37460 levels “(37.7080162257804, -122.46228932524)”,..: 32946 17330 17330 8729 37279 32946 32946 14182 14182 33596 …"
+      },
+      "dateCreated": "Dec 5, 2016 12:46:36 PM",
+      "dateStarted": "Dec 8, 2016 6:07:05 AM",
+      "dateFinished": "Dec 8, 2016 6:07:25 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%r\n zzzx\nsummary(sfo_crime_data)",
+      "dateUpdated": "Feb 11, 2017 10:47:27 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480990843242_-348863839",
+      "id": "20161205-182043_502007857",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "IncidntNum                  Category\u003cbr /\u003e\n Min.   : 10073348   LARCENY/THEFT :35623\u003cbr /\u003e\n 1st Qu.:130332431   OTHER OFFENSES:15835\u003cbr /\u003e\n Median :130659161   NON-CRIMINAL  :15301\u003cbr /\u003e\n Mean   :131747204   ASSAULT       :10361\u003cbr /\u003e\n 3rd Qu.:130985121   WARRANTS      : 7009\u003cbr /\u003e\n Max.   :991152237   DRUG/NARCOTIC : 6678\u003cbr /\u003e\n                     (Other)       :41068\u003cbr /\u003e\n                                  Descript         DayOfWeek\u003cbr /\u003e\n GRAND THEFT FROM LOCKED AUTO         :12592   Friday   :20604\u003cbr /\u003e\n DRIVERS LICENSE, SUSPENDED OR REVOKED: 5037   Monday   :17865\u003cbr /\u003e\n PETTY THEFT OF PROPERTY              : 4752   Saturday :19151\u003cbr /\u003e\n LOST PROPERTY                        : 4712   Sunday   :18327\u003cbr /\u003e\n AIDED CASE, MENTAL DISTURBED         : 4376   Thursday :18556\u003cbr /\u003e\n WARRANT ARREST                       : 4020   Tuesday  :18588\u003cbr /\u003e\n (Other)                              :96386   Wednesday:18784\u003cbr /\u003e\n         Date             Time             PdDistrict\u003cbr /\u003e\n 11/01/2013:   520   00:01  :  2978   SOUTHERN  :25841\u003cbr /\u003e\n 01/01/2013:   496   12:00  :  2971   MISSION   :17947\u003cbr /\u003e\n 10/04/2013:   486   18:00  :  2931   NORTHERN  :15874\u003cbr /\u003e\n 03/01/2013:   460   20:00  :  2673   CENTRAL   :13236\u003cbr /\u003e\n 09/11/2013:   460   19:00  :  2622   BAYVIEW   :12274\u003cbr /\u003e\n 09/27/2013:   459   17:00  :  2504   TENDERLOIN:11237\u003cbr /\u003e\n (Other)   :128994   (Other):115196   (Other)   :35466\u003cbr /\u003e\n                            Resolution\u003cbr /\u003e\n NONE                            :81824\u003cbr /\u003e\n ARREST, BOOKED                  :28268\u003cbr /\u003e\n ARREST, CITED                   : 9893\u003cbr /\u003e\n PSYCHOPATHIC CASE               : 4308\u003cbr /\u003e\n LOCATED                         : 3215\u003cbr /\u003e\n COMPLAINANT REFUSES TO PROSECUTE: 1471\u003cbr /\u003e\n (Other)                         : 2896\u003cbr /\u003e\n                     Address             X                Y\u003cbr /\u003e\n 800 Block of BRYANT ST  :  3861   Min.   :-122.5   Min.   :37.71\u003cbr /\u003e\n 800 Block of MARKET ST  :  1474   1st Qu.:-122.4   1st Qu.:37.76\u003cbr /\u003e\n 0 Block of TURK ST      :   610   Median :-122.4   Median :37.78\u003cbr /\u003e\n 2000 Block of MISSION ST:   561   Mean   :-122.4   Mean   :37.77\u003cbr /\u003e\n 1000 Block of POTRERO AV:   532   3rd Qu.:-122.4   3rd Qu.:37.78\u003cbr /\u003e\n 16TH ST / MISSION ST    :   520   Max.   :-122.4   Max.   :37.82\u003cbr /\u003e\n (Other)                 :124317\u003cbr /\u003e\n                                  Location\u003cbr /\u003e\n (37.7752316978114, -122.403742962696):  3347\u003cbr /\u003e\n (37.7650501214668, -122.419671780296):   691\u003cbr /\u003e\n (37.78475328357, -122.407036790381)  :   616\u003cbr /\u003e\n (37.7568256145423, -122.406656623063):   517\u003cbr /\u003e\n (37.7850491022697, -122.406659517434):   491\u003cbr /\u003e\n (37.7751775060199, -122.403675173997):   481\u003cbr /\u003e\n (Other)                              :125732"
+      },
+      "dateCreated": "Dec 5, 2016 6:20:43 AM",
+      "dateStarted": "Dec 8, 2016 6:07:25 AM",
+      "dateFinished": "Dec 8, 2016 6:07:25 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%r\n \n \n# Order the data frame by Incident Number\n \nsfo_crime_data \u003c- sfo_crime_data[order(sfo_crime_data$IncidntNum),]\n \n#It is evident from above that IncidntNum is duplicated multiple times. The before and after row count shows the difference.\n \nnrow(sfo_crime_data)\n \n# So, the duplicates can be removed by performing subset along with duplicated function\n \nsfo_crime_data \u003c- subset(sfo_crime_data, !duplicated(sfo_crime_data$IncidntNum))\n \nnrow(sfo_crime_data)\nhead(sfo_crime_data)",
+      "dateUpdated": "Feb 11, 2017 10:47:27 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480991214576_1842582173",
+      "id": "20161205-182654_487282869",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "[1] 131875\n[1] 106826\n       IncidntNum       Category                       Descript DayOfWeek\n116543   10073348 OTHER OFFENSES    MISCELLANEOUS INVESTIGATION  Thursday\n116544   10358128 OTHER OFFENSES    MISCELLANEOUS INVESTIGATION  Thursday\n99129    13082306  LARCENY/THEFT    GRAND THEFT FROM A BUILDING    Monday\n106055   13083003  LARCENY/THEFT PETTY THEFT FROM UNLOCKED AUTO    Friday\n46126    13083956   NON-CRIMINAL    DEATH REPORT, CAUSE UNKNOWN    Friday\n106752   13088025 MISSING PERSON               MISSING JUVENILE  Saturday\n             Date  Time PdDistrict Resolution                Address\n116543 11/14/2013 10:20 TENDERLOIN       NONE   0 Block of POWELL ST\n116544 11/14/2013 10:20 TENDERLOIN       NONE   0 Block of POWELL ST\n99129  09/30/2013 13:30   RICHMOND       NONE    200 Block of 9TH AV\n106055 10/18/2013 08:30    TARAVAL       NONE 1900 Block of ULLOA ST\n46126  05/10/2013 12:50 TENDERLOIN       NONE   100 Block of TURK ST\n106752 10/19/2013 22:00   SOUTHERN       NONE     0 Block of MOSS ST\n               X        Y                              Location\n116543 -122.4076 37.78441 (37.7844102153192, -122.407591651721)\n116544 -122.4076 37.78441 (37.7844102153192, -122.407591651721)\n99129  -122.4675 37.78336 (37.7833645467413, -122.467532640892)\n106055 -122.4772 37.74100 (37.7410004053876, -122.477229706206)\n46126  -122.4112 37.78319  (37.7831943345776, -122.41119122431)\n106752 -122.4079 37.77769 (37.7776864127303, -122.407867537061)"
+      },
+      "dateCreated": "Dec 5, 2016 6:26:54 AM",
+      "dateStarted": "Dec 5, 2016 6:28:13 AM",
+      "dateFinished": "Dec 5, 2016 6:28:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%r\n \n \n#Date and Time field are stored separately that needs to be combined into a new field so that proper date operations can be executed on #them. Use paste function to combine Date and Time fields. The Time field from the raw data had only hour and minute but missing #seconds column. Add a default 00 seconds to all Time field\n \nsfo_crime_data$datetime \u003c- paste(sfo_crime_data$Date, paste(sfo_crime_data$Time,\":00\",sep\u003d\u0027\u0027))\n \n#Create a new column Incident_Date by converting the factorial datetime column into Date \u0026 Time data type by using POSIXIt function\n \nsfo_crime_data$Incident_Date \u003c- as.POSIXlt(sfo_crime_data$datetime, format\u003d\"%m/%d/%Y %H:%M\")\n \n#Split time from the Incident_Date into Incident_Time to perform analysis on the data by time of the day\n \nsfo_crime_data$Incident_Time \u003c- times(format(sfo_crime_data$Incident_Date, \"%H:%M:%S\"))\n \n#Split Date from the Incident_Date field to perform analysis on day of the month\n \nsfo_crime_data$Incident_Date \u003c- as.POSIXlt(strptime(sfo_crime_data$Incident_Date, format\u003d\"%Y-%m-%d\"))\n \n#Drop columns that are not needed for this analysis to keep it clean. The chosen columns are stored in a Vector\n \ndrops \u003c- c(\"Descript\", \"PdDistrict\", \"Address\", \"Location\", \"datetime\", \"Date\", \"Time\")\n \nsfo_crime_data \u003c- sfo_crime_data[, !(names(sfo_crime_data) %in% drops)]\nhead(sfo_crime_data)",
+      "dateUpdated": "Feb 11, 2017 10:47:28 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480991293040_-829975632",
+      "id": "20161205-182813_1064871916",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "116543   10073348 OTHER OFFENSES  Thursday       NONE -122.4076 37.78441\n116544   10358128 OTHER OFFENSES  Thursday       NONE -122.4076 37.78441\n99129    13082306  LARCENY/THEFT    Monday       NONE -122.4675 37.78336\n106055   13083003  LARCENY/THEFT    Friday       NONE -122.4772 37.74100\n46126    13083956   NON-CRIMINAL    Friday       NONE -122.4112 37.78319\n106752   13088025 MISSING PERSON  Saturday       NONE -122.4079 37.77769\n       Incident_Date Incident_Time\n116543    2013-11-14      10:20:00\n116544    2013-11-14      10:20:00\n99129     2013-09-30      13:30:00\n106055    2013-10-18      08:30:00\n46126     2013-05-10      12:50:00\n106752    2013-10-19      22:00:00"
+      },
+      "dateCreated": "Dec 5, 2016 6:28:13 AM",
+      "dateStarted": "Dec 5, 2016 6:30:36 AM",
+      "dateFinished": "Dec 5, 2016 6:30:38 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%r\n \n \n#Change the column names of X and Y to longitude and latitude respectively. These columns are in 5th and 6th position in the data #frame.\n \ncolnames(sfo_crime_data)[c(5,6)] \u003c- c(\"longitude\", \"latitude\")\n \n#The frequency of crimes need not be consistent throughout the day as certain crimes happen more in the night than the rest of the #hour. To check this, we can bucket the timestamps into few categories and then analyze the distribution of the crimes across different #time intervals. Let’s create 4 buckets: Early Morning, Morning, Evening, and Night by grouping certain hours together.\n \ntime.tag \u003c- chron(times\u003dc(\"00:00:00\", \"06:00:00\", \"12:00:00\", \"18:00:00\", \"23:59:59\"))\n \n#Create a new column Incident_Time_Tag and use Chron’s cut function to put different hours into the time breaks\n \nsfo_crime_data$Incident_Time_Tag \u003c- cut(sfo_crime_data$Incident_Time, breaks\u003dtime.tag, labels\u003dc(\"Early Morning\",\"Morning\", \"Evening\", \"Night\"), include.lowest\u003dTRUE)\n \nhead(sfo_crime_data)",
+      "dateUpdated": "Feb 11, 2017 10:47:28 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480991436400_-1229498232",
+      "id": "20161205-183036_657912585",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "116543   10073348 OTHER OFFENSES  Thursday       NONE -122.4076 37.78441\n116544   10358128 OTHER OFFENSES  Thursday       NONE -122.4076 37.78441\n99129    13082306  LARCENY/THEFT    Monday       NONE -122.4675 37.78336\n106055   13083003  LARCENY/THEFT    Friday       NONE -122.4772 37.74100\n46126    13083956   NON-CRIMINAL    Friday       NONE -122.4112 37.78319\n106752   13088025 MISSING PERSON  Saturday       NONE -122.4079 37.77769\n       Incident_Date Incident_Time Incident_Time_Tag\n116543    2013-11-14      10:20:00           Morning\n116544    2013-11-14      10:20:00           Morning\n99129     2013-09-30      13:30:00           Evening\n106055    2013-10-18      08:30:00           Morning\n46126     2013-05-10      12:50:00           Evening\n106752    2013-10-19      22:00:00             Night"
+      },
+      "dateCreated": "Dec 5, 2016 6:30:36 AM",
+      "dateStarted": "Dec 5, 2016 6:31:31 AM",
+      "dateFinished": "Dec 5, 2016 6:31:31 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%r\n \n \n#Identify which month of the year a particular crime incident has happened. We already have DayOfWeek from the raw data about #which day of the week but month of the year is missing\n \nsfo_crime_data$Incident_Month \u003c- months(sfo_crime_data$Incident_Date, abbreviate\u003dTRUE)\n \n#Explore different crime categories that comes with the raw data and identify total number of crime categories\n \nhead(sfo_crime_data$Category)\nlength(unique(sfo_crime_data$Category))",
+      "dateUpdated": "Feb 11, 2017 10:47:28 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480991480758_1367000240",
+      "id": "20161205-183120_1077699722",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "[1] OTHER OFFENSES OTHER OFFENSES LARCENY/THEFT  LARCENY/THEFT \n[5] NON-CRIMINAL   MISSING PERSON\n37 Levels: ARSON ASSAULT BAD CHECKS BRIBERY … WEAPON LAWS\n[1] 37"
+      },
+      "dateCreated": "Dec 5, 2016 6:31:20 AM",
+      "dateStarted": "Dec 5, 2016 6:32:01 AM",
+      "dateFinished": "Dec 5, 2016 6:32:01 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%r\n \n \n#Create a new column Crime_Category from Category column and factorize it\nsfo_crime_data$Crime_Category \u003c- as.character(sfo_crime_data$Category)\nsfo_crime_data$Crime_Category \u003c- ifelse(sfo_crime_data$Crime_Category %in% c(\"SEX OFFENSES, FORCIBLE\", \"PROSTITUTION\", \"SEX OFFENSES, NON FORCIBLE\", \"PORNOGRAPHY/OBSCENE MAT\"), \u0027SEX\u0027, sfo_crime_data$Crime_Category)\nsfo_crime_data$Crime_Category \u003c- ifelse(sfo_crime_data$Crime_Category %in% c(\"DRIVING UNDER THE INFLUENCE\", \"DRUG/NARCOTIC\", \"DRUNKENNESS\", \"LIQUOR LAWS\"), \u0027DRUGS\u0027, sfo_crime_data$Crime_Category)\nsfo_crime_data$Crime_Category \u003c- ifelse(sfo_crime_data$Crime_Category %in% c(\"FORGERY/COUNTERFEITING\", \"FRAUD\", \"BAD CHECKS\"), \u0027FRAUD\u0027, sfo_crime_data$Crime_Category)\nsfo_crime_data$Crime_Category \u003c- ifelse(sfo_crime_data$Crime_Category %in% c(\"BURGLARY\", \"ROBBERY\", \"STOLEN PROPERTY\", \"EXTORTION\"), \u0027ROBBERY\u0027, sfo_crime_data$Crime_Category)\nsfo_crime_data$Crime_Category \u003c- ifelse(sfo_crime_data$Crime_Category %in% c(\"LARCENY/THEFT\", \"VEHICLE THEFT\", \"RECOVERED VEHICLE\", \"EMBEZZLEMENT\", \"RECOVERED VEHICLE\"), \u0027THEFT\u0027, sfo_crime_data$Crime_Category)\nsfo_crime_data$Crime_Category \u003c- ifelse(sfo_crime_data$Crime_Category %in% c(\"VANDALISM\", \"ARSON\"), \u0027ARSON\u0027, sfo_crime_data$Crime_Category)\nsfo_crime_data$Crime_Category \u003c- ifelse(sfo_crime_data$Crime_Category %in% c(\"MISSING PERSON\", \"KIDNAPPING\"), \u0027KIDNAPPING\u0027, sfo_crime_data$Crime_Category)\nsfo_crime_data$Crime_Category \u003c- ifelse(sfo_crime_data$Crime_Category %in% c(\"BRIBERY\", \"DISORDERLY CONDUCT\", \"FAMILY OFFENSES\", \"GAMBLING\", \"LOITERING\", \"RUNAWAY\", \"OTHER OFFENSES\", \"SUSPICIOUS OCC\"), \u0027OTHER OFFENSES\u0027,sfo_crime_data$Crime_Category)\nsfo_crime_data$Crime_Category \u003c- ifelse(sfo_crime_data$Crime_Category %in% c(\"NON-CRIMINAL\", \"SUICIDE\"), \u0027NON-CRIMINAL\u0027, sfo_crime_data$Crime_Category)\nhead(sfo_crime_data$Crime_Category)\nlength(unique(sfo_crime_data$Crime_Category))",
+      "dateUpdated": "Feb 11, 2017 10:47:29 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480991521588_1627737401",
+      "id": "20161205-183201_789743378",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "[1] “OTHER OFFENSES” “OTHER OFFENSES” “THEFT”          “THEFT”\u003cbr /\u003e\n[5] “NON-CRIMINAL”   “KIDNAPPING”\u003cbr /\u003e\n[1] 13"
+      },
+      "dateCreated": "Dec 5, 2016 6:32:01 AM",
+      "dateStarted": "Dec 5, 2016 6:34:25 AM",
+      "dateFinished": "Dec 5, 2016 6:34:26 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%r\n \n#Aggregate crime category to find the count for different crime categories\ncrime_count \u003c- aggregate(sfo_crime_data$Crime_Category, by \u003d list(sfo_crime_data$Crime_Category), FUN \u003d length)\nnames(crime_count) \u003c- c(\"Crime_Category\", \"Count\")\n \ncrime_count_plot \u003c- gvisColumnChart(data \u003d crime_count, xvar\u003d\"Crime_Category\", yvar\u003d\"Count\", options\u003dlist(title\u003d\"# of Crimes\", chartArea\u003d\"{left:50,top:50,width: \u002775%\u0027, height: \u002775%\u0027}\",  hAxis\u003d\"{textPosition: \u0027out\u0027}\", vAxis\u003d \"{textPosition: \u0027out\u0027}\", width\u003d800, height\u003d320))\ncrime_count_plot",
+      "dateUpdated": "Feb 11, 2017 10:47:29 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480991665635_1051615055",
+      "id": "20161205-183425_253533395",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u0026lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Strict//EN\n  “\u003ca href\u003d\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd%22%3E\"\u003ehttp://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\u0026gt;\u003c/a\u003e\n\n\n\u003ctitle\u003eColumnChartID33b64d2ed9b\u003c/title\u003e\n\u003cmeta http-equiv\u003d\"content-type\" content\u003d\"text/html;charset\u003dutf-8\" /\u003e\u003c/p\u003e\u003cstyle type\u003d\"text/css\"\u003e\nbody {\n  color: #444444;\n  font-family: Arial,Helvetica,sans-serif;\n  font-size: 75%;\n  }\n  a {\n  color: #4D87C7;\n  text-decoration: none;\n}\n\u003c/style\u003e\u003cp\u003e\n\n \u0026lt;!– ColumnChart generated in R 3.3.2 by googleVis 0.6.1 package –\u0026gt;\u003c/p\u003e\u003cscript type\u003d\"text/javascript\"\u003e\n \n// jsData \nfunction gvisDataColumnChartID33b64d2ed9b () {\nvar data \u003d new google.visualization.DataTable();\nvar datajson \u003d\n[\n [\n\"ARSON\",\n5754\n],\n[\n\"ASSAULT\",\n8430\n],\n[\n\"DRUGS\",\n5014\n],\n[\n\"FRAUD\",\n2126\n],\n[\n\"KIDNAPPING\",\n2376\n],\n[\n\"NON-CRIMINAL\",\n13859\n],\n[\n\"OTHER OFFENSES\",\n13389\n],\n[\n\"ROBBERY\",\n9686\n],\n[\n\"SEX\",\n748\n],\n[\n\"THEFT\",\n41026\n],\n[\n\"TRESPASS\",\n611\n],\n[\n\"WARRANTS\",\n2992\n],\n[\n\"WEAPON LAWS\",\n815\n] \n];\ndata.addColumn(\u0027string\u0027,\u0027Crime_Category\u0027);\ndata.addColumn(\u0027number\u0027,\u0027Count\u0027);\ndata.addRows(datajson);\nreturn(data);\n}\n \n// jsDrawChart\nfunction drawChartColumnChartID33b64d2ed9b() {\nvar data \u003d gvisDataColumnChartID33b64d2ed9b();\nvar options \u003d {};\noptions[\"allowHtml\"] \u003d true;\noptions[\"title\"] \u003d \"# of Crimes\";\noptions[\"chartArea\"] \u003d {left:50,top:50,width: \u002775%\u0027, height: \u002775%\u0027};\noptions[\"hAxis\"] \u003d {textPosition: \u0027out\u0027};\noptions[\"vAxis\"] \u003d {textPosition: \u0027out\u0027};\noptions[\"width\"] \u003d 800;\noptions[\"height\"] \u003d 320;\n\n    var chart \u003d new google.visualization.ColumnChart(\n    document.getElementById(\u0027ColumnChartID33b64d2ed9b\u0027)\n    );\n    chart.draw(data,options);\n    \n\n}\n  \n \n// jsDisplayChart\n(function() {\nvar pkgs \u003d window.__gvisPackages \u003d window.__gvisPackages || [];\nvar callbacks \u003d window.__gvisCallbacks \u003d window.__gvisCallbacks || [];\nvar chartid \u003d \"corechart\";\n  \n// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)\nvar i, newPackage \u003d true;\nfor (i \u003d 0; newPackage \u0026\u0026 i \u003c pkgs.length; i++) {\nif (pkgs[i] \u003d\u003d\u003d chartid)\nnewPackage \u003d false;\n}\nif (newPackage)\n  pkgs.push(chartid);\n  \n// Add the drawChart function to the global list of callbacks\ncallbacks.push(drawChartColumnChartID33b64d2ed9b);\n})();\nfunction displayChartColumnChartID33b64d2ed9b() {\n  var pkgs \u003d window.__gvisPackages \u003d window.__gvisPackages || [];\n  var callbacks \u003d window.__gvisCallbacks \u003d window.__gvisCallbacks || [];\n  window.clearTimeout(window.__gvisLoad);\n  // The timeout is set to 100 because otherwise the container div we are\n  // targeting might not be part of the document yet\n  window.__gvisLoad \u003d setTimeout(function() {\n  var pkgCount \u003d pkgs.length;\n  google.load(\"visualization\", \"1\", { packages:pkgs, callback: function() {\n  if (pkgCount !\u003d pkgs.length) {\n  // Race condition where another setTimeout call snuck in after us; if\n  // that call added a package, we must not shift its callback\n  return;\n}\nwhile (callbacks.length \u003e 0)\ncallbacks.shift()();\n} });\n}, 100);\n}\n \n// jsFooter\n\u003c/script\u003e\u003cscript type\u003d\"text/javascript\" src\u003d\"https://www.google.com/jsapi?callback\u003ddisplayChartColumnChartID33b64d2ed9b\"\u003e\u003c/script\u003e\u003cdiv id\u003d\"ColumnChartID33b64d2ed9b\" style\u003d\"width: 800; height: 320;\"\u003e\n\u003c/div\u003e\u003cp\u003e\u003c/p\u003e\u003cdiv\u003e\u003cspan\u003eData: data • Chart ID: \u003ca href\u003d\"Chart_ColumnChartID33b64d2ed9b.html\"\u003eColumnChartID33b64d2ed9b\u003c/a\u003e • \u003ca href\u003d\"https://github.com/mages/googleVis\"\u003egoogleVis-0.6.1\u003c/a\u003e\u003c/span\u003e\u003cbr /\u003e \u003cp\u003e\u003c/p\u003e\n\n\u003c!-- htmlFooter --\u003e\n\n\u003cp\u003e\u003cspan\u003e \n  R version 3.3.2 (2016-10-31) \n  • \u003ca href\u003d\"https://developers.google.com/terms/\"\u003eGoogle Terms of Use\u003c/a\u003e • \u003ca href\u003d\"https://google-developers.appspot.com/chart/interactive/docs/gallery/columnchart\"\u003eDocumentation and Data Policy\u003c/a\u003e\n\u003c/span\u003e\u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003c/p\u003e"
+      },
+      "dateCreated": "Dec 5, 2016 6:34:25 AM",
+      "dateStarted": "Dec 5, 2016 6:34:56 AM",
+      "dateFinished": "Dec 5, 2016 6:34:56 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%r\n \n#Aggregate crime category by different time in a day\ncrime_count_time_tag \u003c- aggregate(sfo_crime_data$Crime_Category, by \u003d list(sfo_crime_data$Incident_Time_Tag), FUN \u003d length)\nnames(crime_count_time_tag) \u003c- c(\"Incident Time\", \"Count\")\n \ncrime_count_time_tag_plot \u003c- gvisColumnChart(data \u003d crime_count_time_tag, xvar\u003d\"Incident Time\", yvar\u003d(\"Count\"), options\u003dlist(title\u003d\"# of Crimes By Time\", chartArea\u003d\"{left:50,top:50,width: \u002775%\u0027, height: \u002775%\u0027}\",  hAxis\u003d\"{textPosition: \u0027out\u0027}\", vAxis\u003d \"{textPosition: \u0027out\u0027}\", width\u003d600, height\u003d300))\n \ncrime_count_time_tag_plot",
+      "dateUpdated": "Feb 11, 2017 10:47:29 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480991696192_503778594",
+      "id": "20161205-183456_850518477",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u0026lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Strict//EN\n  “\u003ca href\u003d\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd%22%3E\"\u003ehttp://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\u0026gt;\u003c/a\u003e\n\n\n\u003ctitle\u003eColumnChartID33b746b6c4d\u003c/title\u003e\n\u003cmeta http-equiv\u003d\"content-type\" content\u003d\"text/html;charset\u003dutf-8\" /\u003e\u003c/p\u003e\u003cstyle type\u003d\"text/css\"\u003e\nbody {\n  color: #444444;\n  font-family: Arial,Helvetica,sans-serif;\n  font-size: 75%;\n  }\n  a {\n  color: #4D87C7;\n  text-decoration: none;\n}\n\u003c/style\u003e\u003cp\u003e\n\n \u0026lt;!– ColumnChart generated in R 3.3.2 by googleVis 0.6.1 package –\u0026gt;\u003c/p\u003e\u003cscript type\u003d\"text/javascript\"\u003e\n \n// jsData \nfunction gvisDataColumnChartID33b746b6c4d () {\nvar data \u003d new google.visualization.DataTable();\nvar datajson \u003d\n[\n [\n\"Early Morning\",\n15666\n],\n[\n\"Morning\",\n23365\n],\n[\n\"Evening\",\n34747\n],\n[\n\"Night\",\n33048\n] \n];\ndata.addColumn(\u0027string\u0027,\u0027Incident Time\u0027);\ndata.addColumn(\u0027number\u0027,\u0027Count\u0027);\ndata.addRows(datajson);\nreturn(data);\n}\n \n// jsDrawChart\nfunction drawChartColumnChartID33b746b6c4d() {\nvar data \u003d gvisDataColumnChartID33b746b6c4d();\nvar options \u003d {};\noptions[\"allowHtml\"] \u003d true;\noptions[\"title\"] \u003d \"# of Crimes By Time\";\noptions[\"chartArea\"] \u003d {left:50,top:50,width: \u002775%\u0027, height: \u002775%\u0027};\noptions[\"hAxis\"] \u003d {textPosition: \u0027out\u0027};\noptions[\"vAxis\"] \u003d {textPosition: \u0027out\u0027};\noptions[\"width\"] \u003d 600;\noptions[\"height\"] \u003d 300;\n\n    var chart \u003d new google.visualization.ColumnChart(\n    document.getElementById(\u0027ColumnChartID33b746b6c4d\u0027)\n    );\n    chart.draw(data,options);\n    \n\n}\n  \n \n// jsDisplayChart\n(function() {\nvar pkgs \u003d window.__gvisPackages \u003d window.__gvisPackages || [];\nvar callbacks \u003d window.__gvisCallbacks \u003d window.__gvisCallbacks || [];\nvar chartid \u003d \"corechart\";\n  \n// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)\nvar i, newPackage \u003d true;\nfor (i \u003d 0; newPackage \u0026\u0026 i \u003c pkgs.length; i++) {\nif (pkgs[i] \u003d\u003d\u003d chartid)\nnewPackage \u003d false;\n}\nif (newPackage)\n  pkgs.push(chartid);\n  \n// Add the drawChart function to the global list of callbacks\ncallbacks.push(drawChartColumnChartID33b746b6c4d);\n})();\nfunction displayChartColumnChartID33b746b6c4d() {\n  var pkgs \u003d window.__gvisPackages \u003d window.__gvisPackages || [];\n  var callbacks \u003d window.__gvisCallbacks \u003d window.__gvisCallbacks || [];\n  window.clearTimeout(window.__gvisLoad);\n  // The timeout is set to 100 because otherwise the container div we are\n  // targeting might not be part of the document yet\n  window.__gvisLoad \u003d setTimeout(function() {\n  var pkgCount \u003d pkgs.length;\n  google.load(\"visualization\", \"1\", { packages:pkgs, callback: function() {\n  if (pkgCount !\u003d pkgs.length) {\n  // Race condition where another setTimeout call snuck in after us; if\n  // that call added a package, we must not shift its callback\n  return;\n}\nwhile (callbacks.length \u003e 0)\ncallbacks.shift()();\n} });\n}, 100);\n}\n \n// jsFooter\n\u003c/script\u003e\u003cscript type\u003d\"text/javascript\" src\u003d\"https://www.google.com/jsapi?callback\u003ddisplayChartColumnChartID33b746b6c4d\"\u003e\u003c/script\u003e\u003cdiv id\u003d\"ColumnChartID33b746b6c4d\" style\u003d\"width: 600; height: 300;\"\u003e\n\u003c/div\u003e\u003cp\u003e\u003c/p\u003e\u003cdiv\u003e\u003cspan\u003eData: data • Chart ID: \u003ca href\u003d\"Chart_ColumnChartID33b746b6c4d.html\"\u003eColumnChartID33b746b6c4d\u003c/a\u003e • \u003ca href\u003d\"https://github.com/mages/googleVis\"\u003egoogleVis-0.6.1\u003c/a\u003e\u003c/span\u003e\u003cbr /\u003e \u003cp\u003e\u003c/p\u003e\n\n\u003c!-- htmlFooter --\u003e\n\n\u003cp\u003e\u003cspan\u003e \n  R version 3.3.2 (2016-10-31) \n  • \u003ca href\u003d\"https://developers.google.com/terms/\"\u003eGoogle Terms of Use\u003c/a\u003e • \u003ca href\u003d\"https://google-developers.appspot.com/chart/interactive/docs/gallery/columnchart\"\u003eDocumentation and Data Policy\u003c/a\u003e\n\u003c/span\u003e\u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003c/p\u003e"
+      },
+      "dateCreated": "Dec 5, 2016 6:34:56 AM",
+      "dateStarted": "Dec 5, 2016 6:37:31 AM",
+      "dateFinished": "Dec 5, 2016 6:37:31 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%r\n \n#Aggregate crime category by different days in a week\ncrime_count_dayofweek \u003c- aggregate(sfo_crime_data$Crime_Category, by \u003d list(sfo_crime_data$DayOfWeek), FUN \u003d length)\nnames(crime_count_dayofweek) \u003c- c(\"Day of Week\", \"Count\")\n \ncrime_count_dayofweek_plot \u003c- gvisColumnChart(data \u003d crime_count_dayofweek, xvar\u003d\"Day of Week\", yvar\u003d(\"Count\"), options\u003dlist(title\u003d\"# of Crimes By Day of Week\", chartArea\u003d\"{left:50,top:50,width: \u002775%\u0027, height: \u002775%\u0027}\",  hAxis\u003d\"{textPosition: \u0027out\u0027}\", vAxis\u003d \"{textPosition: \u0027out\u0027}\", width\u003d800, height\u003d300))\n \ncrime_count_dayofweek_plot",
+      "dateUpdated": "Feb 11, 2017 10:47:29 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480991851184_2023935178",
+      "id": "20161205-183731_1499638445",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u0026lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Strict//EN\n  “\u003ca href\u003d\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd%22%3E\"\u003ehttp://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\u0026gt;\u003c/a\u003e\n\n\n\u003ctitle\u003eColumnChartID33b7ed52949\u003c/title\u003e\n\u003cmeta http-equiv\u003d\"content-type\" content\u003d\"text/html;charset\u003dutf-8\" /\u003e\u003c/p\u003e\u003cstyle type\u003d\"text/css\"\u003e\nbody {\n  color: #444444;\n  font-family: Arial,Helvetica,sans-serif;\n  font-size: 75%;\n  }\n  a {\n  color: #4D87C7;\n  text-decoration: none;\n}\n\u003c/style\u003e\u003cp\u003e\n\n \u0026lt;!– ColumnChart generated in R 3.3.2 by googleVis 0.6.1 package –\u0026gt;\u003c/p\u003e\u003cscript type\u003d\"text/javascript\"\u003e\n \n// jsData \nfunction gvisDataColumnChartID33b7ed52949 () {\nvar data \u003d new google.visualization.DataTable();\nvar datajson \u003d\n[\n [\n\"Friday\",\n16828\n],\n[\n\"Monday\",\n14419\n],\n[\n\"Saturday\",\n15784\n],\n[\n\"Sunday\",\n14804\n],\n[\n\"Thursday\",\n14961\n],\n[\n\"Tuesday\",\n14933\n],\n[\n\"Wednesday\",\n15097\n] \n];\ndata.addColumn(\u0027string\u0027,\u0027Day of Week\u0027);\ndata.addColumn(\u0027number\u0027,\u0027Count\u0027);\ndata.addRows(datajson);\nreturn(data);\n}\n \n// jsDrawChart\nfunction drawChartColumnChartID33b7ed52949() {\nvar data \u003d gvisDataColumnChartID33b7ed52949();\nvar options \u003d {};\noptions[\"allowHtml\"] \u003d true;\noptions[\"title\"] \u003d \"# of Crimes By Day of Week\";\noptions[\"chartArea\"] \u003d {left:50,top:50,width: \u002775%\u0027, height: \u002775%\u0027};\noptions[\"hAxis\"] \u003d {textPosition: \u0027out\u0027};\noptions[\"vAxis\"] \u003d {textPosition: \u0027out\u0027};\noptions[\"width\"] \u003d 800;\noptions[\"height\"] \u003d 300;\n\n    var chart \u003d new google.visualization.ColumnChart(\n    document.getElementById(\u0027ColumnChartID33b7ed52949\u0027)\n    );\n    chart.draw(data,options);\n    \n\n}\n  \n \n// jsDisplayChart\n(function() {\nvar pkgs \u003d window.__gvisPackages \u003d window.__gvisPackages || [];\nvar callbacks \u003d window.__gvisCallbacks \u003d window.__gvisCallbacks || [];\nvar chartid \u003d \"corechart\";\n  \n// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)\nvar i, newPackage \u003d true;\nfor (i \u003d 0; newPackage \u0026\u0026 i \u003c pkgs.length; i++) {\nif (pkgs[i] \u003d\u003d\u003d chartid)\nnewPackage \u003d false;\n}\nif (newPackage)\n  pkgs.push(chartid);\n  \n// Add the drawChart function to the global list of callbacks\ncallbacks.push(drawChartColumnChartID33b7ed52949);\n})();\nfunction displayChartColumnChartID33b7ed52949() {\n  var pkgs \u003d window.__gvisPackages \u003d window.__gvisPackages || [];\n  var callbacks \u003d window.__gvisCallbacks \u003d window.__gvisCallbacks || [];\n  window.clearTimeout(window.__gvisLoad);\n  // The timeout is set to 100 because otherwise the container div we are\n  // targeting might not be part of the document yet\n  window.__gvisLoad \u003d setTimeout(function() {\n  var pkgCount \u003d pkgs.length;\n  google.load(\"visualization\", \"1\", { packages:pkgs, callback: function() {\n  if (pkgCount !\u003d pkgs.length) {\n  // Race condition where another setTimeout call snuck in after us; if\n  // that call added a package, we must not shift its callback\n  return;\n}\nwhile (callbacks.length \u003e 0)\ncallbacks.shift()();\n} });\n}, 100);\n}\n \n// jsFooter\n\u003c/script\u003e\u003cscript type\u003d\"text/javascript\" src\u003d\"https://www.google.com/jsapi?callback\u003ddisplayChartColumnChartID33b7ed52949\"\u003e\u003c/script\u003e\u003cdiv id\u003d\"ColumnChartID33b7ed52949\" style\u003d\"width: 800; height: 300;\"\u003e\n\u003c/div\u003e\u003cp\u003e\u003c/p\u003e\u003cdiv\u003e\u003cspan\u003eData: data • Chart ID: \u003ca href\u003d\"Chart_ColumnChartID33b7ed52949.html\"\u003eColumnChartID33b7ed52949\u003c/a\u003e • \u003ca href\u003d\"https://github.com/mages/googleVis\"\u003egoogleVis-0.6.1\u003c/a\u003e\u003c/span\u003e\u003cbr /\u003e \u003cp\u003e\u003c/p\u003e\n\n\u003c!-- htmlFooter --\u003e\n\n\u003cp\u003e\u003cspan\u003e \n  R version 3.3.2 (2016-10-31) \n  • \u003ca href\u003d\"https://developers.google.com/terms/\"\u003eGoogle Terms of Use\u003c/a\u003e • \u003ca href\u003d\"https://google-developers.appspot.com/chart/interactive/docs/gallery/columnchart\"\u003eDocumentation and Data Policy\u003c/a\u003e\n\u003c/span\u003e\u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003c/p\u003e"
+      },
+      "dateCreated": "Dec 5, 2016 6:37:31 AM",
+      "dateStarted": "Dec 5, 2016 6:38:36 AM",
+      "dateFinished": "Dec 5, 2016 6:38:36 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%r\n \n#Aggregate crime category by different months in a year\ncrime_count_monthofyear \u003c- aggregate(sfo_crime_data$Crime_Category, by \u003d list(sfo_crime_data$Incident_Month), FUN \u003d length)\nnames(crime_count_monthofyear) \u003c- c(\"Incident Month\", \"Count\")\ncrime_count_monthofyear_plot \u003c- gvisColumnChart(data \u003d crime_count_monthofyear, xvar\u003d\"Incident Month\", yvar\u003d(\"Count\"), options\u003dlist(title\u003d\"# of Crimes By Month\", chartArea\u003d\"{left:50,top:50,width: \u002775%\u0027, height: \u002775%\u0027}\",  hAxis\u003d\"{textPosition: \u0027out\u0027}\", vAxis\u003d \"{textPosition: \u0027out\u0027}\", width\u003d800, height\u003d300))\n \ncrime_count_monthofyear_plot",
+      "dateUpdated": "Feb 11, 2017 10:47:30 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480991915972_-1920633139",
+      "id": "20161205-183835_912239385",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e\u0026lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Strict//EN\n  “\u003ca href\u003d\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd%22%3E\"\u003ehttp://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\u0026gt;\u003c/a\u003e\n\n\n\u003ctitle\u003eColumnChartID33b2b2bd6d7\u003c/title\u003e\n\u003cmeta http-equiv\u003d\"content-type\" content\u003d\"text/html;charset\u003dutf-8\" /\u003e\u003c/p\u003e\u003cstyle type\u003d\"text/css\"\u003e\nbody {\n  color: #444444;\n  font-family: Arial,Helvetica,sans-serif;\n  font-size: 75%;\n  }\n  a {\n  color: #4D87C7;\n  text-decoration: none;\n}\n\u003c/style\u003e\u003cp\u003e\n\n \u0026lt;!– ColumnChart generated in R 3.3.2 by googleVis 0.6.1 package –\u0026gt;\u003c/p\u003e\u003cscript type\u003d\"text/javascript\"\u003e\n \n// jsData \nfunction gvisDataColumnChartID33b2b2bd6d7 () {\nvar data \u003d new google.visualization.DataTable();\nvar datajson \u003d\n[\n [\n\"Apr\",\n8663\n],\n[\n\"Aug\",\n9627\n],\n[\n\"Dec\",\n7947\n],\n[\n\"Feb\",\n8182\n],\n[\n\"Jan\",\n8875\n],\n[\n\"Jul\",\n9151\n],\n[\n\"Jun\",\n8547\n],\n[\n\"Mar\",\n8864\n],\n[\n\"May\",\n8763\n],\n[\n\"Nov\",\n8645\n],\n[\n\"Oct\",\n9674\n],\n[\n\"Sep\",\n9888\n] \n];\ndata.addColumn(\u0027string\u0027,\u0027Incident Month\u0027);\ndata.addColumn(\u0027number\u0027,\u0027Count\u0027);\ndata.addRows(datajson);\nreturn(data);\n}\n \n// jsDrawChart\nfunction drawChartColumnChartID33b2b2bd6d7() {\nvar data \u003d gvisDataColumnChartID33b2b2bd6d7();\nvar options \u003d {};\noptions[\"allowHtml\"] \u003d true;\noptions[\"title\"] \u003d \"# of Crimes By Month\";\noptions[\"chartArea\"] \u003d {left:50,top:50,width: \u002775%\u0027, height: \u002775%\u0027};\noptions[\"hAxis\"] \u003d {textPosition: \u0027out\u0027};\noptions[\"vAxis\"] \u003d {textPosition: \u0027out\u0027};\noptions[\"width\"] \u003d 800;\noptions[\"height\"] \u003d 300;\n\n    var chart \u003d new google.visualization.ColumnChart(\n    document.getElementById(\u0027ColumnChartID33b2b2bd6d7\u0027)\n    );\n    chart.draw(data,options);\n    \n\n}\n  \n \n// jsDisplayChart\n(function() {\nvar pkgs \u003d window.__gvisPackages \u003d window.__gvisPackages || [];\nvar callbacks \u003d window.__gvisCallbacks \u003d window.__gvisCallbacks || [];\nvar chartid \u003d \"corechart\";\n  \n// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)\nvar i, newPackage \u003d true;\nfor (i \u003d 0; newPackage \u0026\u0026 i \u003c pkgs.length; i++) {\nif (pkgs[i] \u003d\u003d\u003d chartid)\nnewPackage \u003d false;\n}\nif (newPackage)\n  pkgs.push(chartid);\n  \n// Add the drawChart function to the global list of callbacks\ncallbacks.push(drawChartColumnChartID33b2b2bd6d7);\n})();\nfunction displayChartColumnChartID33b2b2bd6d7() {\n  var pkgs \u003d window.__gvisPackages \u003d window.__gvisPackages || [];\n  var callbacks \u003d window.__gvisCallbacks \u003d window.__gvisCallbacks || [];\n  window.clearTimeout(window.__gvisLoad);\n  // The timeout is set to 100 because otherwise the container div we are\n  // targeting might not be part of the document yet\n  window.__gvisLoad \u003d setTimeout(function() {\n  var pkgCount \u003d pkgs.length;\n  google.load(\"visualization\", \"1\", { packages:pkgs, callback: function() {\n  if (pkgCount !\u003d pkgs.length) {\n  // Race condition where another setTimeout call snuck in after us; if\n  // that call added a package, we must not shift its callback\n  return;\n}\nwhile (callbacks.length \u003e 0)\ncallbacks.shift()();\n} });\n}, 100);\n}\n \n// jsFooter\n\u003c/script\u003e\u003cscript type\u003d\"text/javascript\" src\u003d\"https://www.google.com/jsapi?callback\u003ddisplayChartColumnChartID33b2b2bd6d7\"\u003e\u003c/script\u003e\u003cdiv id\u003d\"ColumnChartID33b2b2bd6d7\" style\u003d\"width: 800; height: 300;\"\u003e\n\u003c/div\u003e\u003cp\u003e\u003c/p\u003e\u003cdiv\u003e\u003cspan\u003eData: data • Chart ID: \u003ca href\u003d\"Chart_ColumnChartID33b2b2bd6d7.html\"\u003eColumnChartID33b2b2bd6d7\u003c/a\u003e • \u003ca href\u003d\"https://github.com/mages/googleVis\"\u003egoogleVis-0.6.1\u003c/a\u003e\u003c/span\u003e\u003cbr /\u003e \u003cp\u003e\u003c/p\u003e\n\n\u003c!-- htmlFooter --\u003e\n\n\u003cp\u003e\u003cspan\u003e \n  R version 3.3.2 (2016-10-31) \n  • \u003ca href\u003d\"https://developers.google.com/terms/\"\u003eGoogle Terms of Use\u003c/a\u003e • \u003ca href\u003d\"https://google-developers.appspot.com/chart/interactive/docs/gallery/columnchart\"\u003eDocumentation and Data Policy\u003c/a\u003e\n\u003c/span\u003e\u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003c/p\u003e"
+      },
+      "dateCreated": "Dec 5, 2016 6:38:35 AM",
+      "dateStarted": "Dec 5, 2016 6:40:19 AM",
+      "dateFinished": "Dec 5, 2016 6:40:20 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%spark.r\n \n \n# Read SFPD_Incidents.csv file into a data frame\nsfo_crime_data1 \u003c- read.csv(file \u003d \"/Users/abhishekmishra/Downloads/SFPD_Incidents.csv\")\n \ndf \u003c- createDataFrame(sqlContext, sfo_crime_data1)\ncache(df)\nregisterTempTable(df, \"SFODF\")",
+      "dateUpdated": "Feb 11, 2017 10:47:30 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1480991982724_2083420413",
+      "id": "20161205-183942_924583517",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "SparkDataFrame[IncidntNum:int, Category:string, Descript:string, DayOfWeek:string, Date:string, Time:string, PdDistrict:string, Resolution:string, Address:string, X:double, Y:double, Location:string]"
+      },
+      "dateCreated": "Dec 5, 2016 6:39:42 AM",
+      "dateStarted": "Dec 8, 2016 6:08:01 AM",
+      "dateFinished": "Dec 8, 2016 6:08:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql\n \n \nselect Category, count(*) from SFODF group by Category",
+      "dateUpdated": "Feb 11, 2017 10:47:30 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "Category",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count(1)",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "Category",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "count(1)",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sql",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1481010840418_265691613",
+      "id": "20161205-235400_1468755711",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "Category\tcount(1)\nFRAUD\t2570\nSUICIDE\t73\nLIQUOR LAWS\t227\nFAMILY OFFENSES\t35\nMISSING PERSON\t4388\nOTHER OFFENSES\t15835\nDRIVING UNDER THE INFLUENCE\t429\nWARRANTS\t7009\nARSON\t228\nFORGERY/COUNTERFEITING\t706\nGAMBLING\t21\nBRIBERY\t3\nASSAULT\t10361\nDRUNKENNESS\t954\nEXTORTION\t30\nWEAPON LAWS\t1166\nLOITERING\t52\nSUSPICIOUS OCC\t3337\nROBBERY\t4156\nSEX OFFENSES, FORCIBLE\t567\nPROSTITUTION\t269\nEMBEZZLEMENT\t137\nBAD CHECKS\t25\nDISORDERLY CONDUCT\t460\nRUNAWAY\t219\nRECOVERED VEHICLE\t788\nVANDALISM\t6652\nDRUG/NARCOTIC\t6678\nPORNOGRAPHY/OBSCENE MAT\t5\nTRESPASS\t989\nNON-CRIMINAL\t15301\nVEHICLE THEFT\t6204\nSTOLEN PROPERTY\t12\nLARCENY/THEFT\t35623\nKIDNAPPING\t513\nBURGLARY\t5841\nSEX OFFENSES, NON FORCIBLE\t12\n"
+      },
+      "dateCreated": "Dec 5, 2016 11:54:00 AM",
+      "dateStarted": "Dec 6, 2016 12:09:58 PM",
+      "dateFinished": "Dec 6, 2016 12:11:17 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql\n \n \nselect ${GroupBy\u003dResolution,Resolution|PdDistrict} , count(*) from SFODF group by ${GroupBy\u003dResolution,Resolution|PdDistrict}\n",
+      "dateUpdated": "Feb 11, 2017 10:47:31 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "pieChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "Resolution",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "count(1)",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "Resolution",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "count(1)",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sql",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {
+          "GroupBy": "Resolution"
+        },
+        "forms": {
+          "GroupBy": {
+            "name": "GroupBy",
+            "defaultValue": "Resolution",
+            "options": [
+              {
+                "value": "Resolution"
+              },
+              {
+                "value": "PdDistrict"
+              }
+            ],
+            "hidden": false
+          }
+        }
+      },
+      "jobName": "paragraph_1481011798404_-1073823457",
+      "id": "20161206-000958_778281178",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "Resolution\tcount(1)\nJUVENILE BOOKED\t734\nEXCEPTIONAL CLEARANCE\t198\nARREST, BOOKED\t28268\nCLEARED-CONTACT JUVENILE FOR MORE INFO\t8\nPROSECUTED FOR LESSER OFFENSE\t3\nLOCATED\t3215\nUNFOUNDED\t889\nDISTRICT ATTORNEY REFUSES TO PROSECUTE\t138\nJUVENILE ADMONISHED\t112\nPSYCHOPATHIC CASE\t4308\nCOMPLAINANT REFUSES TO PROSECUTE\t1471\nJUVENILE DIVERTED\t61\nJUVENILE CITED\t442\nARREST, CITED\t9893\nPROSECUTED BY OUTSIDE AGENCY\t225\nNONE\t81824\nNOT PROSECUTED\t86\n"
+      },
+      "dateCreated": "Dec 6, 2016 12:09:58 PM",
+      "dateStarted": "Dec 6, 2016 12:14:55 PM",
+      "dateFinished": "Dec 6, 2016 12:14:56 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql\n\nselect ${GroupBy\u003dResolution,Resolution|PdDistrict} , count(*) from SFODF group by ${GroupBy\u003dResolution,Resolution|PdDistrict}",
+      "dateUpdated": "Feb 11, 2017 10:50:53 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "pieChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [
+            {
+              "name": "count(1)",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "yAxis": {
+              "name": "count(1)",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sql",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {
+          "GroupBy": "PdDistrict"
+        },
+        "forms": {
+          "GroupBy": {
+            "name": "GroupBy",
+            "defaultValue": "Resolution",
+            "options": [
+              {
+                "value": "Resolution"
+              },
+              {
+                "value": "PdDistrict"
+              }
+            ],
+            "hidden": false
+          }
+        }
+      },
+      "jobName": "paragraph_1481011988513_609709680",
+      "id": "20161206-001308_612405906",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Table or view not found: SFODF; line 1 pos 34\nset zeppelin.spark.sql.stacktrace \u003d true to see full stacktrace"
+      },
+      "dateCreated": "Dec 6, 2016 12:13:08 PM",
+      "dateStarted": "Feb 11, 2017 10:50:53 PM",
+      "dateFinished": "Feb 11, 2017 10:51:48 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "dateUpdated": "Feb 11, 2017 10:47:31 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1481012103768_1302827983",
+      "id": "20161206-001503_1327657000",
+      "dateCreated": "Dec 6, 2016 12:15:03 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Team 8 Big Data Project",
+  "id": "2C5Q5MM6N",
+  "angularObjects": {
+    "2C5P4P1Z7:shared_process": [],
+    "2C2B4RJVR:shared_process": [],
+    "2C5EXUZPT:shared_process": [],
+    "2C5YWCC5P:shared_process": [],
+    "2C56YZ8AV:shared_process": [],
+    "2C5JT94B1:shared_process": [],
+    "2C53WX6XU:shared_process": [],
+    "2C3GMMFVA:shared_process": [],
+    "2C2AAX3RW:shared_process": [],
+    "2C468SCUK:shared_process": [],
+    "2C5EDFJ85:shared_process": [],
+    "2C2PE2BZV:shared_process": [],
+    "2C64HPX3R:shared_process": [],
+    "2C3VR5BYN:shared_process": [],
+    "2C3727X57:shared_process": [],
+    "2C5PU81Q9:shared_process": [],
+    "2C3G797K9:shared_process": [],
+    "2C2BHNPVX:shared_process": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}
